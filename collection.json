@@ -1,0 +1,244 @@
+{
+	"info": {
+		"_postman_id": "f02f71c1-a916-4fd4-a2ef-b4811a779f42",
+		"name": "API Laravel - Tests",
+		"description": "Collection de tests pour l'API Laravel avec authentification JWT et gestion des transactions",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "33598094"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    const response = pm.response.json();",
+									"    if (response.success && response.data.token) {",
+									"        pm.globals.set('auth_token', response.data.token);",
+									"        console.log('Token sauvegardé:', response.data.token);",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"phone_number\": \"0123456789\",\n    \"country_code\": \"+225\",\n    \"pin_code\": \"1234\"\n}"
+						},
+						"url": "{{base_url}}/api/auth/login"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Transactions",
+			"item": [
+				{
+					"name": "Get Transactions (All)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{auth_token}}"
+							}
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": "{{base_url}}/api/transactions"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Transactions (Filtered)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{auth_token}}"
+							}
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/transactions?status=en-attente&category=pressing&payment_method=cash&date_filter=today&search=Client&per_page=10",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"transactions"
+							],
+							"query": [
+								{
+									"key": "status",
+									"value": "en-attente",
+									"description": "Filtrer par statut (en-attente, termine, annule)"
+								},
+								{
+									"key": "category",
+									"value": "pressing",
+									"description": "Filtrer par catégorie"
+								},
+								{
+									"key": "payment_method",
+									"value": "cash",
+									"description": "Filtrer par méthode de paiement (cash, mobile_money, card)"
+								},
+								{
+									"key": "date_filter",
+									"value": "today",
+									"description": "Filtrer par date (today, week, month)"
+								},
+								{
+									"key": "search",
+									"value": "Client",
+									"description": "Rechercher par nom du client"
+								},
+								{
+									"key": "per_page",
+									"value": "10",
+									"description": "Nombre d'éléments par page (défaut: 15)"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Transaction",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{auth_token}}"
+							}
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"customer_name\": \"Jean Kouassi\",\n    \"amount\": 15000,\n    \"quantity\": 3,\n    \"category\": \"costume\",\n    \"payment_method\": \"cash\",\n    \"inventory\": [\n    {\n      \"id\": 1,\n      \"quantity\": 2,\n      \"clothingType\": \"chemise\",\n      \"color\": \"blanc\"\n    },\n    {\n      \"id\": 2,\n      \"quantity\": 1,\n      \"clothingType\": \"pantalon\",\n      \"color\": \"noir\"\n    }\n  ],\n    \"notes\": \"Livraison urgente demandée\",\n    \"status\": \"en-attente\"\n}"
+						},
+						"url": "{{base_url}}/api/transactions"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Transaction (Mobile Money)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{auth_token}}"
+							}
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"customer_name\": \"Marie Diallo\",\n    \"amount\": 8500,\n    \"quantity\": 2,\n    \"category\": \"lavage-simple\",\n    \"payment_method\": \"wave\",\n    \"inventory\": [\n        {\n        \"id\": 3,\n        \"quantity\": 2,\n        \"clothingType\": \"serviette\",\n        \"color\": \"bleu\"\n        },\n        {\n        \"id\": 4,\n        \"quantity\": 1,\n        \"clothingType\": \"drap\",\n        \"color\": \"blanc\"\n        },\n        {\n        \"id\": 5,\n        \"quantity\": 1,\n        \"clothingType\": \"couette\",\n        \"color\": \"rouge\"\n        }\n   ],\n    \"notes\": \"Paiement Orange Money\"\n}"
+						},
+						"url": "{{base_url}}/api/transactions"
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8000"
+		},
+		{
+			"key": "auth_token",
+			"value": ""
+		}
+	]
+}

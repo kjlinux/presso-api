@@ -1,61 +1,164 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Presso API - Backend Laravel
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Une API REST développée avec Laravel pour la gestion des transactions avec authentification JWT sécurisée.
 
-## About Laravel
+## Dépôt GitHub
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+https://github.com/kjlinux/presso-api
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Objectifs Réalisés
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+-   **API REST** avec authentification JWT
+-   **Module Transactions** : consultation et création de transactions
+-   **Tests unitaires** avec Pest
+-   **Base de données PostgreSQL**
 
-## Learning Laravel
+## Stack Technique
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+-   **Framework** : Laravel
+-   **Base de données** : PostgreSQL
+-   **Authentification** : JWT (JSON Web Tokens)
+-   **Tests** : Pest
+-   **Documentation** : Endpoints REST
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## Choix Techniques
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### Pourquoi Laravel ?
 
-## Laravel Sponsors
+Laravel a été choisi comme framework backend pour plusieurs raisons stratégiques :
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+-   **Développement rapide** : Artisan CLI, migrations, seeders et ORM Eloquent
+-   **Sécurité intégrée** : Protection CSRF, validation des données
+-   **Architecture MVC claire**
+-   **Intégration JWT native**
+-   **Tests intégrés** : Pest facilite l'implémentation des tests
+-   **Compatibilité PostgreSQL** : Support natif et optimisé pour PostgreSQL
 
-### Premium Partners
+## Note sur le Frontend
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+En raison de problèmes de compatibilité avec les versions des packages utilisés dans le template Figma et npm, il est difficile de démarrer un projet React avec TypeScript sur la base du code fourni par Figma. Cette implémentation se concentre donc exclusivement sur l'API backend.
 
-## Contributing
+## Prérequis
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+-   **PHP** : Version 8.2 minimum
+-   **PostgreSQL** : Version récente
+-   **Composer** : Pour la gestion des dépendances PHP
 
-## Code of Conduct
+## Installation
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### Option 1 : Installation locale
 
-## Security Vulnerabilities
+1. **Cloner le projet**
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+```bash
+git clone https://github.com/kjlinux/presso-api.git
+cd presso-api
+```
 
-## License
+2. **Installer les dépendances**
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+```bash
+composer install
+```
+
+3. **Configuration de l'environnement**
+
+```bash
+cp .env.example .env
+```
+
+4. **Configurer la base de données dans le fichier `.env`**
+
+```bash
+DB_CONNECTION=pgsql
+DB_HOST=127.0.0.1
+DB_PORT=5432
+DB_DATABASE=presso_api
+DB_USERNAME=votre_nom_utilisateur
+DB_PASSWORD=votre_mot_de_passe
+```
+
+5. **Générer les clés de sécurité**
+
+```bash
+php artisan key:generate
+php artisan jwt:secret
+```
+
+6. **Créer la base de données PostgreSQL**
+   Créer une base de données nommée `presso_api` dans votre instance PostgreSQL une base de données nommée `test` dans votre instance MySQL.
+
+7. **Exécuter les migrations**
+
+```bash
+php artisan migrate --seed
+```
+
+8. **Lancer le serveur de développement**
+
+```bash
+php artisan serve
+```
+
+## Test avec Postman
+
+Une fois le serveur lancé, vous pouvez démarrer postman sur votre ordinateur et importer le fichier `collection.json` pour effectuer les tests api à défaut du frontend qui n'est pas fonctionnel.
+
+## Endpoints Disponibles
+
+### Authentification
+
+-   **POST** `/api/auth/login` - Connexion utilisateur
+
+### Transactions
+
+-   **GET** `/api/transactions` - Lister toutes les transactions
+-   **POST** `/api/transactions` - Créer une nouvelle transaction
+
+## Tests
+
+Exécuter les tests unitaires avec Pest :
+
+```bash
+php artisan test
+```
+
+Veuillez à commenter les lignes 12 et 17 du fichier ./routes/api.php avant de lancer les tests.
+
+## Authentification JWT
+
+L'API utilise l'authentification JWT pour sécuriser les endpoints. Après connexion via `/api/auth/login`, le token JWT est retourné et doit être inclus dans l'en-tête `Authorization: Bearer {token}` pour accéder aux endpoints protégés.
+
+## Structure du Projet
+
+```
+presso-api/
+├── app/
+│   ├── Http/
+│   │   └── Controllers/
+│   │       └── Api/
+│   │           ├── AuthController.php
+│   │           └── TransactionController.php
+│   └── Models/
+├── database/
+│   ├── migrations/
+│   └── seeders/
+├── tests/
+└──
+```
+
+## Module Transactions
+
+Le module transactions permet de :
+
+-   **Consulter** la liste des transactions existantes
+-   **Créer** de nouvelles transactions
+
+## Sécurité
+
+-   Authentification JWT obligatoire pour accéder aux endpoints des transactions
+-   Validation des données d'entrée
+
+## Base de Données
+
+La base de données PostgreSQL `presso_api` contient les tables nécessaires. Les migrations et seeders sont fournis pour l'initialisation automatique des données.
